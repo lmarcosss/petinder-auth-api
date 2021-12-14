@@ -1,6 +1,9 @@
 
 package org.ifrs.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -18,9 +21,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.ifrs.auth.TokenUtils;
 import org.ifrs.entity.Error;
 import org.ifrs.model.UserModel;
 import org.ifrs.service.UserService;
+import org.ifrs.view.UserView;
 
 @Path("user")
 public class UserController {
@@ -34,7 +39,12 @@ public class UserController {
     @RolesAllowed({ "User" })
     public Response listAll() {
         try {
-            return Response.ok(userService.listAll()).build();
+            List<UserView> users = userService.listAll()
+                .stream()
+                .map(user -> new UserView().mapFromEntity(user))
+                .collect(Collectors.toList());
+
+            return Response.ok(users).build();
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
@@ -46,7 +56,10 @@ public class UserController {
     @RolesAllowed({ "User" })
     public Response getById(@PathParam("id") Long id) {
         try {
-            return Response.ok(userService.getById(id)).build();
+            UserView userView = new UserView();
+            userView.mapFromEntity(userService.getById(id));
+
+            return Response.ok(userView).build();
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
@@ -59,7 +72,9 @@ public class UserController {
     @PermitAll
     public Response create(@Valid UserModel user) {
         try {
-            return Response.ok(userService.create(user)).build();
+            UserView userView = new UserView();
+            userView.mapFromEntity(userService.create(user));
+            return Response.ok(userView).build();
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
@@ -71,8 +86,7 @@ public class UserController {
     @RolesAllowed({ "User" })
     public Response update(@Valid UserModel user) {
         try {
-            System.out.println(token.claim("userId").get());
-            Long userId = Long.parseLong(token.claim("userId").get().toString());
+            Long userId = TokenUtils.getUserId(token);
             userService.update(user, userId);
 
             return Response.ok().build();
