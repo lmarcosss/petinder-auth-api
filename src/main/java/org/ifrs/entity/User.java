@@ -86,15 +86,4 @@ public class User extends BaseEntity<UserModel> {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    public void mapFromEntity(UserModel user) {
-        this.birthDay = user.birthDay;
-        this.cpf = user.cpf;
-        this.description = user.description;
-        this.email = user.email;
-        this.name = user.name;
-        this.password = user.password;
-        this.phone = user.phone;        
-    }
 }
