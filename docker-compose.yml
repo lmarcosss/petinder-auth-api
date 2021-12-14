@@ -1,0 +1,16 @@
+version: "3.7"
+volumes:
+  database:
+services:
+  db:
+    image: mysql:latest
+    container_name: petinder-auth-api
+    ports:
+      - 3307:3306
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=petinder
+      - MYSQL_DATABASE=petinderauth
+      - MYSQL_USER=petinder
+      - MYSQL_PASSWORD=petinder
