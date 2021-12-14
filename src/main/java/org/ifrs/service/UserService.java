@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
+import org.ifrs.adapter.UserAdapter;
 import org.ifrs.entity.User;
 import org.ifrs.model.LoginModel;
 import org.ifrs.model.UserModel;
@@ -40,9 +41,10 @@ public class UserService {
     public void update(UserModel user, Long id) {
         User findedUser = this.getById(id);
 
-        findedUser.mapFromEntity(user);
-
-        User.persist(findedUser);
+        UserAdapter adapter = new UserAdapter(findedUser);
+        adapter.mapModelToEntity(user);
+        
+        User.persist(adapter.getUser());
     }
 
     public User create(UserModel user) {
@@ -50,10 +52,12 @@ public class UserService {
 
         validateUserEmailCpf(user.email, user.cpf);
 
-        newUser.mapFromEntity(user);
-        User.persist(newUser);
+        UserAdapter adapter = new UserAdapter(newUser);
+        adapter.mapModelToEntity(user);
 
-        return newUser;
+        User.persist(adapter.getUser());
+
+        return adapter.getUser();
     }
 
     public Long login(LoginModel login) {
