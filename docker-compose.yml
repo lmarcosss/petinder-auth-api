@@ -11,6 +11,6 @@ services:
       - database:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=petinder
-      - MYSQL_DATABASE=petinder-auth
+      - MYSQL_DATABASE=petinderauth
       - MYSQL_USER=petinder
       - MYSQL_PASSWORD=petinder
