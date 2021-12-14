@@ -2,6 +2,7 @@ package org.ifrs.entity;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Column;
 
 import org.ifrs.model.UserModel;
 
@@ -14,6 +15,7 @@ public class User extends BaseEntity<UserModel> {
     private String birthDay;
 
     @Basic(optional = false)
+    @Column(unique = true)
     private String cpf;
 
     @Basic(optional = false)
@@ -23,6 +25,7 @@ public class User extends BaseEntity<UserModel> {
     private String description;
     
     @Basic(optional = false)
+    @Column(unique = true)
     private String email;
 
     @Basic(optional = false)

@@ -13,6 +13,16 @@ import org.ifrs.model.UserModel;
 import io.quarkus.panache.common.Parameters;
 
 public class UserService {
+    private void validateUserEmailCpf(String email, String cpf) {
+        boolean isValidEmail = User.count("email = ?1", email) == 0;
+
+        if (!isValidEmail) throw new BadRequestException("Email já cadastrado");
+
+        boolean isValidCpf = User.count("cpf = ?1", cpf) == 0;
+
+        if (!isValidCpf) throw new BadRequestException("Cpf já cadastrado");
+    }
+
     public List<User> listAll() {
         return User.listAll();
     }
@@ -38,6 +48,8 @@ public class UserService {
     public User create(UserModel user) {
         User newUser = new User();
 
+        validateUserEmailCpf(user.email, user.cpf);
+
         newUser.mapFromEntity(user);
         User.persist(newUser);
 
@@ -53,7 +65,7 @@ public class UserService {
 
             return loggedUser.getId();
         } catch (NoResultException e) {
-            throw new BadRequestException("Email e/ou senha inválido!");
+            throw new BadRequestException("Email e/ou senha inválido");
         }
     }
 }
