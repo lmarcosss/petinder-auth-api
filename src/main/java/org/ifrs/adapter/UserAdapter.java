@@ -17,10 +17,8 @@ public class UserAdapter {
         userView.id = user.getId();
         userView.name = user.getName();
         userView.birthDay = user.getBirthDay();
-        userView.cpf = user.getCpf();
         userView.phone = user.getPhone();
         userView.description = user.getDescription();
-        userView.email = user.getEmail();
 
         return userView;
     }

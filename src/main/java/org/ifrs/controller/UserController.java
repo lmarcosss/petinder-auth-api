@@ -37,7 +37,6 @@ public class UserController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ "User" })
     public Response listAll() {
         try {
             List<UserView> users = userService.listAll()
@@ -54,7 +53,6 @@ public class UserController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @RolesAllowed({ "User" })
     public Response getById(@PathParam("id") Long id) {
         try {
             UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
