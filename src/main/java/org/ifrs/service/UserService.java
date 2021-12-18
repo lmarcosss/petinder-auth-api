@@ -31,21 +31,7 @@ public class UserService {
     public User getById(Long userId) {
         User findedUser = User.findById(userId);
 
-        if (findedUser == null) {
-            throw new NotFoundException("Usuário não encontrado");
-        }
-
         return findedUser;
-    }
-
-    public User getByIdClient(Long userId) {
-        try {
-            User findedUser = User.findById(userId);
-
-            return findedUser;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public void update(UserModel user, Long id) {

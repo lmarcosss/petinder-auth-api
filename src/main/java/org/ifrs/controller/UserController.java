@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,6 +25,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.ifrs.adapter.UserAdapter;
 import org.ifrs.auth.TokenUtils;
 import org.ifrs.entity.Error;
+import org.ifrs.entity.User;
 import org.ifrs.model.UserModel;
 import org.ifrs.service.UserService;
 import org.ifrs.view.UserView;
@@ -51,12 +53,18 @@ public class UserController {
     }
 
     @GET
-    @Path("{id}")
+    @Path("{id}/info")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "User" })
-    public Response getById(@PathParam("id") Long id) {
+    public Response getUserInfo(@PathParam("id") Long id) {
         try {
-            UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
+            User user = userService.getById(id);
+
+            if (user == null) {
+                throw new NotFoundException("Usuário não encontrado");
+            }
+
+            UserView userView = new UserAdapter(user).mapEntityToView();
 
             return Response.ok(userView).build();
         } catch (ClientErrorException e) {
@@ -65,11 +73,17 @@ public class UserController {
     }
 
     @GET
-    @Path("client/{id}")
+    @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
-    public UserView getByIdClient(@PathParam("id") Long id) {
-        UserView userView = new UserAdapter(userService.getByIdClient(id)).mapEntityToView();
+    public UserView getById(@PathParam("id") Long id) {
+        User user = userService.getById(id);
+
+        if (user == null) {
+            return null;
+        }
+
+        UserView userView = new UserAdapter(user).mapEntityToView();
 
         return userView;
     }
