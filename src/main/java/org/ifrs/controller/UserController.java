@@ -53,7 +53,7 @@ public class UserController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @PermitAll
+    @RolesAllowed({ "User" })
     public Response getById(@PathParam("id") Long id) {
         try {
             UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
@@ -68,10 +68,14 @@ public class UserController {
     @Path("client/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
-    public UserView getByIdClient(@PathParam("id") Long id) {
-        UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
+    public UserView getByIdClient(@PathParam("id") Long id) throws ClientErrorException  {
+        try {
+            UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
 
-        return userView;
+            return userView;
+        } catch (ClientErrorException e) {
+            throw e;
+        }
     }
 
     @POST
