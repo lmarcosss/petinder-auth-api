@@ -3,6 +3,7 @@ package org.ifrs.adapter;
 import org.ifrs.entity.User;
 import org.ifrs.model.UserModel;
 import org.ifrs.view.UserView;
+import org.ifrs.view.UserInfoView;
 
 public class UserAdapter {
     private User user;
@@ -21,6 +22,20 @@ public class UserAdapter {
         userView.description = user.getDescription();
 
         return userView;
+    }
+
+    public UserInfoView mapEntityToInfoView() {
+        UserInfoView userInfoView = new UserInfoView();
+
+        userInfoView.id = user.getId();
+        userInfoView.name = user.getName();
+        userInfoView.birthDay = user.getBirthDay();
+        userInfoView.phone = user.getPhone();
+        userInfoView.description = user.getDescription();
+        userInfoView.email = user.getEmail();
+        userInfoView.cpf = user.getCpf();
+
+        return userInfoView;
     }
 
     public void mapModelToEntity(UserModel userModel) {

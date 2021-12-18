@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotFoundException;
 
 import org.ifrs.adapter.UserAdapter;
 import org.ifrs.entity.User;

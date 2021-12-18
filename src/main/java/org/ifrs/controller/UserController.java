@@ -28,6 +28,7 @@ import org.ifrs.entity.Error;
 import org.ifrs.entity.User;
 import org.ifrs.model.UserModel;
 import org.ifrs.service.UserService;
+import org.ifrs.view.UserInfoView;
 import org.ifrs.view.UserView;
 
 @Path("user")
@@ -53,20 +54,17 @@ public class UserController {
     }
 
     @GET
-    @Path("{id}/info")
+    @Path("info")
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "User" })
-    public Response getUserInfo(@PathParam("id") Long id) {
+    public Response getUserInfo() {
         try {
-            User user = userService.getById(id);
+            Long userId = TokenUtils.getUserId(token);
+            User user = userService.getById(userId);
 
-            if (user == null) {
-                throw new NotFoundException("Usuário não encontrado");
-            }
+            UserInfoView userInfoView = new UserAdapter(user).mapEntityToInfoView();
 
-            UserView userView = new UserAdapter(user).mapEntityToView();
-
-            return Response.ok(userView).build();
+            return Response.ok(userInfoView).build();
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
