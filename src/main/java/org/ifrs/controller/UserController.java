@@ -58,7 +58,7 @@ public class UserController {
         try {
             UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
 
-            return userView
+            return userView;
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
