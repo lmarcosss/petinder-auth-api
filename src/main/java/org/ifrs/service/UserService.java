@@ -38,6 +38,16 @@ public class UserService {
         return findedUser;
     }
 
+    public User getByIdClient(Long userId) {
+        try {
+            User findedUser = User.findById(userId);
+
+            return findedUser;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public void update(UserModel user, Long id) {
         User findedUser = this.getById(id);
 

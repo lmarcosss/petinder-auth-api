@@ -68,14 +68,10 @@ public class UserController {
     @Path("client/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
-    public UserView getByIdClient(@PathParam("id") Long id) throws ClientErrorException  {
-        try {
-            UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
+    public UserView getByIdClient(@PathParam("id") Long id) {
+        UserView userView = new UserAdapter(userService.getByIdClient(id)).mapEntityToView();
 
-            return userView;
-        } catch (ClientErrorException e) {
-            throw e;
-        }
+        return userView;
     }
 
     @POST
