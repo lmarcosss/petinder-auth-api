@@ -53,6 +53,7 @@ public class UserController {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     public Response getById(@PathParam("id") Long id) {
         try {
             UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
