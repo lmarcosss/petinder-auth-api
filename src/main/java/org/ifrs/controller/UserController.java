@@ -54,11 +54,11 @@ public class UserController {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @PermitAll
-    public Response getById(@PathParam("id") Long id) {
+    public UserView getById(@PathParam("id") Long id) {
         try {
             UserView userView = new UserAdapter(userService.getById(id)).mapEntityToView();
 
-            return Response.ok(userView).build();
+            return userView
         } catch (ClientErrorException e) {
             return new Error().toResponse(e);
         }
