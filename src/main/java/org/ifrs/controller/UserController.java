@@ -39,6 +39,7 @@ public class UserController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @PermitAll
     public Response listAll() {
         try {
             List<UserView> users = userService.listAll()
