@@ -1,1 +1,1 @@
-web: java -Dquarkus.http.port=$PORT $JAVA_OPTS -jar prod/petinder-auth-1.0.0-SNAPSHOT.jar
+web: java -Dquarkus.http.port=$PORT $JAVA_OPTS
