@@ -23,7 +23,11 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Generate secret keys
         run: |
-          cd src/main/resources && openssl genrsa -out rsaPrivateKey.pem 2048 && openssl rsa -pubout -in rsaPrivateKey.pem -out publicKey.pem && openssl pkcs8 -topk8 -nocrypt -inform pem -in rsaPrivateKey.pem -outform pem -out privateKey.pem && cd ../../..
+          cd src/main/resources
+          openssl genrsa -out rsaPrivateKey.pem 2048
+          openssl rsa -pubout -in rsaPrivateKey.pem -out publicKey.pem
+          openssl pkcs8 -topk8 -nocrypt -inform pem -in rsaPrivateKey.pem -outform pem -out privateKey.pem
+          cd ../../..
       - name: Build
         run: mvn -B package --file pom.xml
       - name: Create build path prod
@@ -41,4 +45,8 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: api-auth-petinder
-        run: heroku buildpacks:clear --app api-auth-petinder && heroku plugins:install java && heroku create --no-remote && heroku deploy:jar prod/petinder-auth-1.0.0-SNAPSHOT.jar --app api-auth-petinder
+        run: |
+          heroku buildpacks:clear --app api-auth-petinder
+          heroku plugins:install java
+          heroku create --no-remote
+          heroku deploy:jar target/quarkus-app/quarkus-run.jar --app api-auth-petinder
