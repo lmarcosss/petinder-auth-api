@@ -35,7 +35,7 @@ jobs:
       - name: Upload math result for job
         uses: actions/upload-artifact@v1
         with:
-          name: api_auth_petinder
+          name: petinder_auth
           path: staging
       - name: Login to Heroku Container registry
         env: 
@@ -45,4 +45,4 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: api-auth-petinder
-        run: heroku plugins:install java && heroku create --no-remote && heroku deploy:jar staging/githubactions-0.0.1-SNAPSHOT.jar --app api-auth-petinder
+        run: heroku plugins:install java && heroku create --no-remote && heroku deploy:jar staging/petinder-auth-0.0.1-SNAPSHOT.jar --app api-auth-petinder
