@@ -45,4 +45,4 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: api-auth-petinder
-        run: heroku plugins:install java && heroku create --no-remote && heroku deploy:jar staging/petinder-auth-1.0.0-SNAPSHOT.jar --app api-auth-petinder
+        run: heroku buildpacks:clear && heroku plugins:install java && heroku create --no-remote && heroku deploy:jar staging/petinder-auth-1.0.0-SNAPSHOT.jar --app api-auth-petinder
