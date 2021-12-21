@@ -35,11 +35,10 @@ jobs:
             -Dquarkus.container-image.group=registry.heroku.com/api-auth-petinder\
             -Dquarkus.container-image.name=web\
             -Dquarkus.container-image.tag=latest
-      - name: Login to Heroku Container registry
+      - name: Login to Heroku and Release container
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Release container
         run: |
           docker push registry.heroku.com/api-auth-petinder/web
+          heroku container:login
           heroku container:release web --app api-auth-petinder
