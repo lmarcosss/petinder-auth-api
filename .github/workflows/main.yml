@@ -39,6 +39,6 @@ jobs:
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          docker push registry.heroku.com/api-auth-petinder/web
           heroku container:login
+          docker push registry.heroku.com/api-auth-petinder/web
           heroku container:release web --app api-auth-petinder
