@@ -7,6 +7,7 @@ import javax.ws.rs.BadRequestException;
 
 import org.ifrs.adapter.UserAdapter;
 import org.ifrs.entity.User;
+import org.ifrs.model.EditUserModel;
 import org.ifrs.model.LoginModel;
 import org.ifrs.model.UserModel;
 
@@ -33,11 +34,11 @@ public class UserService {
         return findedUser;
     }
 
-    public void update(UserModel user, Long id) {
+    public void update(EditUserModel user, Long id) {
         User findedUser = this.getById(id);
 
         UserAdapter adapter = new UserAdapter(findedUser);
-        adapter.mapModelToEntity(user);
+        adapter.mapEditModelToEntity(user);
         
         User.persist(adapter.getUser());
     }

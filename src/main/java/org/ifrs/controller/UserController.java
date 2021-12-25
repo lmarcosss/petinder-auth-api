@@ -25,6 +25,7 @@ import org.ifrs.adapter.UserAdapter;
 import org.ifrs.auth.TokenUtils;
 import org.ifrs.entity.Error;
 import org.ifrs.entity.User;
+import org.ifrs.model.EditUserModel;
 import org.ifrs.model.UserModel;
 import org.ifrs.service.UserService;
 import org.ifrs.view.UserInfoView;
@@ -104,7 +105,7 @@ public class UserController {
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({ "User" })
-    public Response update(@Valid UserModel user) {
+    public Response update(@Valid EditUserModel user) {
         try {
             Long userId = TokenUtils.getUserId(token);
             userService.update(user, userId);

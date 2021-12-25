@@ -1,6 +1,7 @@
 package org.ifrs.adapter;
 
 import org.ifrs.entity.User;
+import org.ifrs.model.EditUserModel;
 import org.ifrs.model.UserModel;
 import org.ifrs.view.UserView;
 import org.ifrs.view.UserInfoView;
@@ -44,6 +45,15 @@ public class UserAdapter {
         user.setEmail(userModel.email);
         user.setName(userModel.name);
         user.setPassword(userModel.password);
+        user.setPhone(userModel.phone);
+    }
+
+    public void mapEditModelToEntity(EditUserModel userModel) {
+        user.setBirthDay(userModel.birthDay);
+        user.setCpf(userModel.cpf);
+        user.setDescription(userModel.description);
+        user.setEmail(userModel.email);
+        user.setName(userModel.name);
         user.setPhone(userModel.phone);
     }
 
