@@ -23,15 +23,13 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Generate secret keys
         env: 
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
+          RSA_PRIVATE_KEY: ${{ secrets.RSA_PRIVATE_KEY }}
         run: |
           cd src/main/resources
-          touch privateKey.pem
-          touch publicKey.pem
-          echo $PRIVATE_KEY > privateKey.pem
-          echo $PUBLIC_KEY > publicKey.pem
-          echo "$(cat privateKey.pem)"
+          touch rsaPrivateKey.pem
+          echo $RSA_PRIVATE_KEY > rsaPrivateKey.pem
+          openssl rsa -pubout -in rsaPrivateKey.pem -out publicKey.pem
+          openssl pkcs8 -topk8 -nocrypt -inform pem -in rsaPrivateKey.pem -outform pem -out privateKey.pem
           cd ../../..
       - name: Build container
         run: |
