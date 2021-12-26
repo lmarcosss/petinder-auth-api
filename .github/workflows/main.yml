@@ -28,6 +28,7 @@ jobs:
           cd src/main/resources
           touch rsaPrivateKey.pem
           echo $RSA_PRIVATE_KEY > rsaPrivateKey.pem
+          file -i rsaPrivateKey.pem
           openssl rsa -pubout -in rsaPrivateKey.pem -out publicKey.pem
           openssl pkcs8 -topk8 -nocrypt -inform pem -in rsaPrivateKey.pem -outform pem -out privateKey.pem
           cd ../../..
