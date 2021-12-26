@@ -31,7 +31,7 @@ jobs:
           touch publicKey.pem
           echo $PRIVATE_KEY > privateKey.pem
           echo $PUBLIC_KEY > publicKey.pem
-          echo privateKey.pem
+          echo "$(cat privateKey.pem)"
           cd ../../..
       - name: Build container
         run: |
