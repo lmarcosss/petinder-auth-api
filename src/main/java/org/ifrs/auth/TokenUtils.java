@@ -12,7 +12,8 @@ public class TokenUtils {
         return Jwt
             .upn(login) 
             .groups(new HashSet<>(Arrays.asList("User"))) 
-            .claim("userId", userId) 
+            .claim("userId", userId)
+            .expiresIn(3000000)
             .sign();
     }
 
