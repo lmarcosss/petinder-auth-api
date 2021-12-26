@@ -22,12 +22,15 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Generate secret keys
+        env: 
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
         run: |
           cd src/main/resources
           touch privateKey.pem
           touch publicKey.pem
-          echo ${{ secrets.PRIVATE_KEY }} > privateKey.pem
-          echo ${{ secrets.PUBLIC_KEY }} > publicKey.pem
+          echo $PRIVATE_KEY > privateKey.pem
+          echo $PUBLIC_KEY > publicKey.pem
           cd ../../..
       - name: Build container
         run: |
